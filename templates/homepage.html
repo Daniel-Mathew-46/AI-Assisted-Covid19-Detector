@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<title>HomePage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../static/css/homepage.css">
+    </head>
+    <body>
+        <section id="background"> 
+                <div class="uppercontent">
+  
+                        <h1>Covid  19 Intelligence Detector</h1>
+                    <div class="middlecontent">
+                        <a href="/reg"><span></span> Register</a> 
+                        <a href="/login"><span></span> Log In</a>   
+                     </div>
+                </div> 
+        </section>
+        <div id="sideNav" hidden>
+            <nav>
+                <ul>
+                    <li> <a href="/homepage"> HOME</a></li>
+                    <li> <a href="/dashboard"> DIAGNOSIS</a></li>
+                    <li> <a href="/records"> RECORDS</a></li> 
+                </ul>
+            </nav>
+        </div>
+       <div id="menuBtn">
+           <img src="../static/images/menu.png" id="menu">
+       </div>
+       
+           <script>
+               var menuBtn = document.getElementById("menuBtn")
+               var sideNav = document.getElementById("sideNav")
+               var menu = document.getElementById("menu")
+            
+               sideNav.style.right = "-250px";
+               menuBtn.onclick = function(){
+                   if(sideNav.style.right == "-250px"){
+                       sideNav.style.right ="0";
+                       menu.src ="../static/images/cancel.png";
+                   }
+                   else{
+                       sideNav.style.right ="-250px";
+                       menu.src ="../static/images/menu.png";
+                   }
+               }
+           </script>
+        
+        
+    </body>
+</html>

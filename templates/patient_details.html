@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<head>
+    <title>
+        Covid 19 Detector
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/details.css">
+</head>
+<body>
+    {% if details %}
+    <div class="details-container">
+        <div class="details-wrapper">
+            <div class="patient-name">
+                <h3>{{details.patient_name}}</h3>
+                <hr>
+            </div>
+            <div class="details-section">
+                <div class="image-wrapper">
+                    <div class="xray">
+                        <h4>X ray Image</h4>
+                    </div>
+                    <img src="../static/images/{{details.image}}">
+                </div>
+                <div class="patient-full-details">
+                    <div class="comps-div">
+                        <div class="comp-title">
+                            <h4>Informations</h4>
+                        </div>
+                        <div class="ps">
+                            <p>Age: {{details.conditions.age}} yrs</p>
+                        </div>
+                        <div class="ps">
+                            <p>Temperature: {{details.conditions.temperature}} oC</p>
+                        </div>
+                        <div class="ps">
+                            <p>Pressure: {{details.conditions.pressure}} mmHg</p>
+                        </div>
+                        <div class="ps">
+                            <p>Diabetes: {{details.conditions.diabetes}} mg/dL</p>
+                        </div>
+                        <div class="ps">
+                            <p>Predictions: Covid: {{details.results['Covid']}}%, Normal: {{details.results['Normal']}}% </p>
+                        </div>
+                        <div class="ps">
+                            <p class="cov-p">Covid Test Results: {{details.status}}</p>
+                        </div>
+                        <div class="ps">
+                            <p class="cov-p">Last diagnosed: {{details.date}}</p>
+                        </div>
+                    </div>
+                    <div class="symp-div">
+                        <div class="symp-title">
+                            <h4>Symptoms</h4>
+                        </div>
+                        {% if details.conditions.symptoms %}
+                            {% for symp in details.conditions.symptoms %}
+                                <div class="">
+                                    <p>{{symp}}</p>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                           <div class="">
+                                <p>None</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+                <a href="/update/{{details.patient_id}}">
+                    <button class="button">
+                        Rediagnose
+                    </button>
+                </a>
+        </div>
+    </div>
+    {% endif %}
+</body>
+
+

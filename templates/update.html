@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Covid 19 Detector
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/fullstyles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+</head>
+<body>
+    <div class="large-heading">
+        <h1>DIAGNOSE COVID 19</h1>
+    </div>
+    <h4>{{user}}</h4>
+    <form method="post" action="/update/{{values.pid}}" enctype="multipart/form-data" onsubmit="return OnSubmit();">
+        <div class="full-wrapper">
+            <div class="register-survey-wrapper">
+                <div class="register-container">
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">Full Name</span>
+                            <input type="text" placeholder="Enter Patient First name" name="fullname" value="{{values.name}}" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Age</span>
+                            <input type="number" name="age" value={{values.conditions.age}} required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Weight</span>
+                            <input type="number" name="weight" value={{values.weight}} required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Height</span>
+                            <input type="number" name="height" value={{values.height}}  required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Residency</span>
+                            <input type="text" placeholder="Enter Patient residency" name="residency" value="{{values.residency}}" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Patient Id</span>
+                            <input type="text" placeholder="Enter Patient Id" name="patient_id" value="{{values.pid}}" required>
+                        </div>
+                    </div>
+                    <div class="gender-details">
+                      <input type="radio" name="gender" id="dot-1" value="Male">
+                      <input type="radio" name="gender" id="dot-2" value="Female">
+                      <input type="radio" name="gender" id="dot-3" value="Not Prefer">
+                      <span class="gender-title">Gender</span>
+                      <div class="category">
+                        <label for="dot-1">
+                            <span class="dot one"></span>
+                            <span class="gender">Male</span>
+                        </label>
+                        <label for="dot-2">
+                            <span class="dot two"></span>
+                            <span class="gender">Female</span>
+                        </label>
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">Prefer not to say</span>
+                        </label>
+                      </div>
+                   </div>
+               </div>
+               <!-- Survey -->
+               <div class="survey-container">
+                <div class="symp-col1">
+                    <div class="symps1">
+                        Temperature: <input type="number" name="temperature" required>
+                    </div>
+                    <div class="symps1">
+                        Pressure(mmHg): <input type="number" name="pressure" required>
+                    </div>
+                    <div class="symps1">
+                        Diabetes(Glucose Level) :<input type="number" name="diabetes" required>
+                    </div>
+                    <p>
+                        Symptoms:
+                    </p>
+                    <div class="checks">
+                    <input type="checkbox" name="symptoms" value="Fever">Fever
+                    <input type="checkbox" name="symptoms" value="ThroatPain"><span>Throat Pain</span>
+                    <input type="checkbox" name="symptoms" value="Chest Pains">Chest Pains
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="imagefile-wrapper">
+            <div class="container">
+            <div class="wrapper">
+            <div class="image">
+                <img src="">
+            </div>
+            <div class="content">
+                <div class="text">No file choosen!</div>
+            </div>
+            <div class="file-name" hidden>Filename here!</div>
+            </div>
+            <input type="file" id="default-button" hidden name="imagefile">
+            <p id="validating-message" hidden>Validating....</p>
+            <button class="custom-button" onclick="defaultButtonActive()">Choose a file</button>
+            </div>
+            </div> 
+        </div>
+        <div class="submit-button">
+            <input type="submit" name="submit" id="submit">
+        </div>
+        {% with messages = get_flashed_messages()%}
+            {% if messsages %}
+                {% for message in messages %}
+                   <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+    </form>
+    <div class="spinner"></div>
+    {% if status %}
+    <div class="results-container">
+        <h5>Results</h5>
+        <div class="results-wrapper">
+            {%if diagnosis_%}
+            <div class="details">
+                <p class="detail">Name: {{diagnosis_['name']}}</p>
+                <p class="detail">Age: {{diagnosis_['age']}} yrs</p>
+                <p class="detail">PatientID: {{diagnosis_['patientid']}}</p>
+                <p class="detail">Pressure: {{diagnosis_['pressure']}} mmHg</p>
+                <p class="detail">Temperature: {{diagnosis_['temperature']}} oCelcius</p>
+                <p class="detail">Diabetes: {{diagnosis_['diabetes']}} mg/dL</p>
+                <p class="detail">Date: {{diagnosis_['date_diagnosed']}}</p>
+                <hr>
+                <p class="detailstatus">Covid Probability: {{diagnosis_['results'][0]}}%</p>
+                <p class="detailstatus">Normal Probability: {{diagnosis_['results'][1]}}%</p>
+                <p class="detailstatus">Diagnosis Results: {{diagnosis_['status']}}</p>
+            </div>
+            <div class="image-detail">
+                <img src="{{diagnosis_['imagefile']}}">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="popup center">
+        <div class="title">
+            Confirm
+        </div>
+        <div class="description">
+            Please confirm if the details are correct especially for the X-ray!
+        </div>
+        <div class="button-wrapper">
+            <div class="confirm-btn">
+            <button class="confirm-dismiss">Confirm</button>
+            </div>
+            <div class="cancel-button">
+            <button class="cancel-dismiss">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const loader = document.querySelector(".spinner");
+        const default_but = document.querySelector("#default-button");
+        const custom_butt = document.querySelector(".custom-button");
+        const img = document.querySelector("img");
+        const show_button = document.querySelector(".show-button");
+        const hide_button = document.querySelector(".hide-button");
+        const records_list = document.querySelector(".records-list");
+        function defaultButtonActive() {
+            event.preventDefault();
+            default_but.click();
+        }
+
+        function validate_image(image_id) {
+          // Load the model......
+          cocoSsd.load().then(model => {
+                    
+                    // detect objects in the image.....
+                    model.detect(image_id).then(predictions => {
+
+                              // If The Length Of the Prediction is 0 Then this means that
+                              // No Common Objects Are Found In The Images.....
+                              // Then We can Predict the iamge From Our Custom_pretrained Model....
+
+                              if (predictions.length === 0) {
+                                document.querySelector('#submit').disabled = false;
+                                document.querySelector('.submit-button').style.opacity = 1;
+                                document.querySelector("#validating-message").style.display = "none";
+                                console.log(predictions)
+                              } else {
+                                alert('Invalid Image');
+                                document.querySelector('#submit').disabled = true;
+                                document.querySelector("#validating-message").style.display = "none";
+                              }
+                              
+                    });
+          });
+}
+        default_but.addEventListener("change", function (){
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener("load", function (){
+                    const result = reader.result;
+                    img.src = result;
+                    document.querySelector(".file-name").innerHTML = result;
+                });
+                reader.readAsDataURL(file)
+            }
+            if (this.value) {
+                document.querySelector('.submit-button').style.opacity = 0.5;
+                document.querySelector('#submit').disabled = true;
+                document.querySelector("#validating-message").style.display = "inline";
+                validate_image(img)
+            }
+        });
+        function show_records() {
+            if (show_button.style.display == "none") {
+                hide_button.style.display = "none";
+                show_button.style.display = "inline";
+                records_list.style.display = "none";
+            }
+            else {
+                show_button.style.display = "none";
+                hide_button.style.display = "inline";
+                records_list.style.display = "inline";
+            }
+        }
+        function activateLoading() {
+            loader.style.display = "inline-block";
+        }
+        // function toggle_popup() {
+        //     document.getElementsByClassName("popup")[0].classList.add("active");
+        //     document.querySelector(".confirm-dismiss").addEventListener("click", function () {
+        //         document.getElementsByClassName("popup")[0].classList.remove("active");
+        //         trigger = true;
+        //         activateLoading();
+        //     });
+        //     document.querySelector(".cancel-dismiss").addEventListener("click", function () {
+        //         document.getElementsByClassName("popup")[0].classList.remove("active");
+        //         trigger = false;
+        //     });
+        // }
+        function OnSubmit(){
+            activateLoading();
+        }
+    </script>
+</body>
+</html>

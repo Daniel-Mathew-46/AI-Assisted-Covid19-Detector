@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <title>Covid 19 detector</title>
+        <link rel="stylesheet" href="../static/css/records.css">
+        <meta name="viewport" content="width=device-width, initial-scale=0.1">
+    </head>
+    <body>
+        <div class="records-container">
+        <div class="records">
+            <div class="heading-box">
+               <h3>Patients Records</h3>
+            </div>
+            <div class="input-search-container">
+                <input type="text" id="my_input" spellcheck="false" placeholder="search patient" onkeyup="patient_search();">
+            </div>
+        </div>
+        {%if records %}
+        <div class="records-list">
+            <div class="grid">
+                <div class="grid-item">
+                    <h4>Patient's Name</h4>
+                </div>
+                <div class="grid-item">
+                    <h4>Patient's ID</h4>
+                </div>
+                <div class="grid-item">
+                    <h4>Patient's Image</h4>
+                </div>
+                <div class="grid-item">
+                    <h4>Date Diagnosed</h4>
+                </div>
+                <div class="grid-item">
+                    <h4>Status</h4>
+                </div>
+            </div>
+            <hr>
+            {% for record in records%}
+            <div class="grid-data">
+                <div class="grid-item">
+                    <a href="/records/{{record.patient_id}}"><p>{{record.name}}</p></a>
+                </div>
+                <div class="grid-item">
+                    <p>{{record._id}}_{{record.patient_id}}</p>
+                </div>
+                <div class="grid-item">
+                    <a href="/records/{{record.patient_id}}"><img src="../static/images/{{record.image}}" class="img-data"></a>
+                </div>
+                <div class="grid-item">
+                    <p>{{record.date_diagnosed}}</p>
+                </div>
+                <div class="grid-item">
+                    <p>{{record.status}}</p>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <script type="text/javascript">
+        const patient_search = () => {
+            let input, filter, grid_data, grid_item, p_name, i, txtValue;
+            input = document.querySelector('#my_input');
+            filter = input.value.toUpperCase();
+            grid_data = document.getElementsByClassName('grid-data');
+            h_r = document.getElementsByTagName('hr');
+            console.log(h_r);
+
+            for (let i = 0; i < grid_data.length; i++) {
+                grid_item = grid_data[i].getElementsByClassName('grid-item')[0];
+                p_name = grid_item.getElementsByTagName('p')[0];
+                if (p_name) {
+                    txtValue = p_name.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        grid_data[i].style.display = "";
+                    } else {
+                        grid_data[i].style.display = "none";
+                        h_r[i + 1].style.display = "none";
+                    }
+                }
+            }
+            // alert("All Clear!!");
+        }
+    </script>
+    </body>
+</html>

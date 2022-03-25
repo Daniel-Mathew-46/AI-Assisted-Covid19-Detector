@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab - youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Sign Up </title>
+    <link rel="stylesheet" href="../static/css/style.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="large-heading">
+    <h1>COVID DETECTOR SYSTEM</h1>
+  </div>
+  <div class="container">
+    <div class="title">Radiologist Registration</div>
+    <div class="content">
+      <form action="/reg" method="post" enctype="multipart/form-data">
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Full Name</span>
+            <input type="text" placeholder="Enter Your Full Name" name="fullname" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Doctor Id</span>
+            <input type="text" placeholder="Enter Your DoctorId" name="doctorId" required>
+          </div>
+        
+        
+          
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password" placeholder="Enter Your Password" name="password" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Confirm Password</span>
+            <input type="password" placeholder="Confirm Your Password" name="password2" required>
+          </div>
+          <div class="button">
+            <input type="submit" value="Register">
+          </div>
+          {% with messages = get_flashed_messages()%}
+            {% if messages%}
+              {% for message in messages%}
+                <p class="message">{{message}}</p>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+      </form>
+     
+    </div>
+  </div>
+
+</body>
+</html>

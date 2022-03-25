@@ -1,0 +1,6 @@
+tensorflow==2.7.0
+greenlet
+Flask
+Flask-SQLAlchemy
+flask-marshmallow
+marshmallow-sqlalchemy

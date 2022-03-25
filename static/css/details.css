@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+	box-sizing: border-box;
+	font-family: poppins, sans-serif;
+}
+
+html, body {
+	height: 100%;
+	text-align: center;
+	width: auto;
+	padding: 10px 10px;	
+}
+
+.details-container{
+	height: auto;
+	width: 90%;
+	border-radius: 10px;
+	padding: 5px 10px;
+	margin-bottom: 10px;
+	box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+	position: relative;
+	margin-left: 55px;
+	align-self: center;
+}
+
+.details-wrapper .patient-name{
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 0px;
+}
+
+.details-section {
+	display: flex;
+	width: 100%;
+	height: auto;
+	padding: 0px 0px;
+	justify-content: space-between;
+}
+
+.image-wrapper {
+	height: 100%;
+	width: 40%;
+	/*background: yellow;*/
+}
+
+.xray {
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 0px;
+}
+
+.details-section .image-wrapper img {
+	height: 335px;
+	width: 315px;
+	border-radius: 13px;
+}
+
+.patient-full-details {
+	height: 100%;
+	width: 60%;
+	/*background: red;*/
+	display: flex;
+}
+
+.comps-div {
+	width: 60%;
+	/*background: blue;*/
+}
+.comp-title {
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 0px;
+	text-align: left;
+}
+.comps-div .ps{
+	width: 100%;
+	position: relative;
+}
+
+.comps-div p {
+	font-size: 20px;
+	text-align: left;
+}
+
+.symp-div {
+	width: 40%;
+	/*background: green;*/
+}
+.symp-title {
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	padding: 0px 0px;
+	text-align: left;
+}
+.symp-div p {
+	font-size: 20px;
+	text-align: left;
+}
+
+.button {
+   height: 50px;
+   width: 50%;
+   border-radius: 5px;
+   border: none;
+   color: #fff;
+   font-size: 18px;
+   font-weight: 500;
+   letter-spacing: 1px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}

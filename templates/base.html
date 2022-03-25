@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Covid 19 Detector
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+</head>
+<body>
+    {% block content%}
+    <div class="large-heading">
+        <h1>DIAGNOSE COVID 19</h1>
+    </div>
+    <form method="post" action="/" enctype="multipart/form-data" onsubmit="activateLoading()">
+        <div class="container">
+        <div class="wrapper">
+            <div class="image">
+                <img src="/static/images/coiuseriu.png">
+            </div>
+            <div class="content">
+                <div class="text">No file choosen!</div>
+            </div>
+            <div class="file-name" hidden>Filename here!</div>
+        </div>
+        <input type="file" id="default-button" hidden name="imagefile">
+        <button class="custom-button" onclick="defaultButtonActive()">Choose a file</button>
+        <input type="submit" name="predict-button" class="predict-button" title='predict'>
+    </div>
+    </form>
+    {%if status%}
+    <p class="predictions">{{predictions}}</p>
+    {%else%}
+    <p class="predictions"><p>
+    {%endif%}
+    <div class="spinnerwrapper">
+    <div class="spinner">
+        <!-- <div class="spinnerOne"></div>
+        <div class="spinnerTwo"></div> -->
+    </div>
+    </div>
+    <script>
+        const loader = document.querySelector(".spinnerwrapper");
+        const default_but = document.querySelector("#default-button");
+        const custom_butt = document.querySelector(".custom-button");
+        const img = document.querySelector("img")
+        function defaultButtonActive() {
+            event.preventDefault();
+            default_but.click();
+        }
+        default_but.addEventListener("change", function (){
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.addEventListener("load", function (){
+                    const result = reader.result;
+                    img.src = result;
+                    document.querySelector(".file-name").innerHTML = result;
+                });
+                reader.readAsDataURL(file)
+            }
+        });
+        function activateLoading() {
+            loader.style.display = "inline-block";
+        }
+    </script>
+    {%endblock content%}
+</body>
+</html>

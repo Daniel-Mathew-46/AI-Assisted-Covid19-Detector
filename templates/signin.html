@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- Designined by CodingLab - youtube.com/codinglabyt -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <title> Covid 19 system Registration </title>
+    <link rel="stylesheet" href="../static/css/page1.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="large-heading">
+    <h1>COVID DETECTOR SYSTEM</h1>
+  </div>
+  <div class="container">
+    <div class="title">LogIn</div>
+    <div class="content">
+      <form action="/login" method="post" enctype="multipart/form-data">
+        <div class="user-details">
+       
+          <div class="input-box">
+            <span class="details">DoctorId</span>
+            <input type="text" placeholder="Enter your DoctorId" name="doctorId" required>
+          </div>
+         
+          <div class="input-box">
+            <span class="details">Password</span>
+            <input type="password" placeholder="Enter your password" name="password" required>
+          </div>
+       
+        </div>
+        <div class="linkss">
+          <a  href="/reg">Don't have an account?Sign Up</a>
+        </div>
+   
+        <div class="button">
+          <input type="submit" value="LogIn">
+        </div>
+        {% with messages = get_flashed_messages()%}
+          {% if messages%}
+            {% for message in messages%}
+              <p class="message">{{message}}</p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
